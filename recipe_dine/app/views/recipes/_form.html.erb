@@ -1,0 +1,40 @@
+<%= form_for(@recipe) do |f| %>
+  <% if @recipe.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+      <ul>
+      <% @recipe.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.label :dish_name%>
+  <%= f.text_field :dish_name %>
+  <%= f.label :short_description %>
+  <%= f.text_field :short_description %>
+  <%= f.label :no_of_person_serves %>
+  <%= f.text_field :no_of_person_serves %>
+  <%= f.label :recipe_preference %>
+  <%= f.text_field :recipe_preference %>
+  <%= f.label :recipe_cuisine %>
+  <%= f.text_field :recipe_cuisine %>
+  <%= f.label :recipe_course %>
+  <%= f.text_field :recipe_course %>
+  <%= f.label :recipe_dificulty_level %>
+  <%= f.text_field :recipe_dificulty_level %>
+  <%= f.label :treatment %>
+  <%= f.text_field :treatment %>
+  <%= f.label :cooking_equipment %>
+  <%= f.text_field :cooking_equipment %>
+  <%= f.label :best_dish_combination %>
+  <%= f.text_field :best_dish_combination %>
+  <%= f.label :best_beverage_combination %>
+  <%= f.text_field :best_beverage_combination %>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

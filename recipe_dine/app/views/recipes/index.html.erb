@@ -1,0 +1,45 @@
+<h1>Listing recipes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th> Dish Name</th>
+      <th> short description</th>
+      <th>no of person serves</th>
+      <th>recipe preference</th>
+      <th>recipe cuisine</th>
+      <th>recipe course</th>
+      <th>recipe dificulty level</th>
+      <th> treatment </th>
+      <th>cooking equipment</th>
+      <th>best dish combination</th>
+      <th>best beverage combination</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recipes.each do |recipe| %>
+    <tr>
+    <td><%= recipe.dish_name %></td>
+    <td><%= recipe.short_description %></td>
+    <td><%= recipe.no_of_person_serves %></td>
+    <td><%= recipe.recipe_preference %></td>
+    <td><%= recipe.recipe_cuisine %></td>
+    <td><%= recipe.recipe_course %></td>
+    <td><%= recipe.recipe_dificulty_level %></td>
+    <td><%= recipe.treatment %></td>
+    <td><%= recipe.cooking_equipment %></td>
+    <td><%= recipe.best_dish_combination %></td>
+    <td><%= recipe.best_beverage_combination %></td>
+      
+        <td><%= link_to 'Show', recipe %></td>
+        <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
+        <td><%= link_to 'Destroy', recipe, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Recipe', new_recipe_path %>
