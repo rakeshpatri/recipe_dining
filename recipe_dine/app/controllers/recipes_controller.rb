@@ -15,6 +15,8 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     @recipe = Recipe.new
+    @ingredients = @recipe.ingredients.build()
+    @procedures = @recipe.procedural_steps.build()
   end
 
   # GET /recipes/1/edit
@@ -71,6 +73,6 @@ class RecipesController < ApplicationController
     def recipe_params
       params.require(:recipe).permit(:dish_name, :short_description, :no_of_person_serves,:recipe_preference,
         :recipe_cuisine, :recipe_course, :recipe_dificulty_level, :treatment, :cooking_equipment, :best_dish_combination,
-      :best_beverage_combination)
+      :best_beverage_combination, :ingredients_attributes => [:comment, :name, :quantity, :measuring_unit])
     end
 end

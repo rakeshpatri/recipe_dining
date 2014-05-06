@@ -1,3 +1,5 @@
 class Recipe < ActiveRecord::Base
-	# attr_accessible :dish_name, :short_description, :no_of_person_serves
+	has_many :ingredients
+	has_many :procedural_steps
+	accepts_nested_attributes_for :ingredients, :procedural_steps
 end

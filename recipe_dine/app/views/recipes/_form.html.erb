@@ -1,4 +1,4 @@
-<%= form_for(@recipe) do |f| %>
+<%= nested_form_for(@recipe) do |f| %>
   <% if @recipe.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
@@ -32,6 +32,12 @@
   <%= f.text_field :best_dish_combination %>
   <%= f.label :best_beverage_combination %>
   <%= f.text_field :best_beverage_combination %>
+  <%= f.fields_for @ingredients do |ingredient_form|%>
+    <%= ingredient_form.text_field :name %>
+    <%= ingredient_form.text_field :quantity %>
+    <%= ingredient_form.text_field :measuring_unit %>
+    <%= ingredient_form.text_field :comment %>
+  <% end %>
 
 
   <div class="actions">
