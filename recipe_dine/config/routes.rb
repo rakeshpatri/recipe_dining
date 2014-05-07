@@ -1,6 +1,6 @@
 RecipeDine::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  root :to => "recipes#index"
+  root :to => "rails_admin/main#dashboard"
   resources :recipes
 
   # The priority is based upon order of creation: first created -> highest priority.
