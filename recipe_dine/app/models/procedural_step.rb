@@ -10,4 +10,12 @@ class ProceduralStep < ActiveRecord::Base
      :message => "Invalid video format",
      :if => :is_type_of_video?
 
+  def is_type_of_video?
+    false
+  end
+
+  def is_type_of_image?
+    true
+  end
+
 end
