@@ -5,17 +5,21 @@ class ServingStep < ActiveRecord::Base
   validates_attachment_content_type :media_file, :content_type => ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'video/x-msvideo','video/avi','video/quicktime','video/3gpp','video/x-ms-wmv','video/mp4','video/mpeg','video/x-flv', 'application/octet-stream'],
      :message => "Invalid image format"
 
+  
+  validates_presence_of :step_number
   rails_admin  do
     list do
       field :step_number
       field :description
       field :comment
-      field :recipe_name
-    end   
+      field :recipe
+    end
+    object_label_method do
+      :custom_label_method
+    end  
   end
-  
-  def recipe_name
-    self.recipe.dish_name
+  def custom_label_method
+    "Serving Step#{self.step_number}"  
   end
 
   def is_image?

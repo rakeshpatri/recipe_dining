@@ -1,23 +1,29 @@
 development:
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
   database: recipe_development
   pool: 5
-  username: postgres
-  password: root
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: recipe_development
-  pool: 100
-  username: postgres
-  password: root
+  username: root
+  password: 
+  socket: /var/run/mysqld/mysqld.sock
 
 test:
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
   database: recipe_test
   pool: 5
-  username: postgres
-  password: root  
+  username: root
+  password: 
+  socket: /var/run/mysqld/mysqld.sock
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: recipe_production
+  pool: 5
+  username: root
+  password:
+  socket: /var/run/mysqld/mysqld.sock
