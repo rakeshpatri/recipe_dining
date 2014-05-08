@@ -5,7 +5,6 @@ class GarnishingStep < ActiveRecord::Base
   validates_attachment_content_type :media_file, :content_type => ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'video/x-msvideo','video/avi','video/quicktime','video/3gpp','video/x-ms-wmv','video/mp4','video/mpeg','video/x-flv', 'application/octet-stream'],
      :message => "Invalid image format"
 
-
   validates_presence_of :step_number
   rails_admin  do
     list do
@@ -18,9 +17,13 @@ class GarnishingStep < ActiveRecord::Base
       :custom_label_method
     end   
   end
+
+  def self.belongs_to(user)
+    GarnishingStep.where(:recipe_id => user.recipes.pluck(:id))
+  end
+  
   def custom_label_method
-    "Garnishing Step#{self.step_number}"
-    
+    "Garnishing Step#{self.step_number}"  
   end
   
   def is_image?

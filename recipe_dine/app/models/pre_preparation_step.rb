@@ -17,6 +17,11 @@ class PrePreparationStep < ActiveRecord::Base
       :custom_label_method
     end   
   end
+
+  def self.belongs_to(user)
+    PrePreparationStep.where(:recipe_id => user.recipes.pluck(:id))
+  end
+  
   def custom_label_method
     "Pre-Preparation Step#{self.step_number}"  
   end

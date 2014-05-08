@@ -17,6 +17,11 @@ class CookingStep < ActiveRecord::Base
       :custom_label_method
     end 
   end
+
+  def self.belongs_to(user)
+    CookingStep.where(:recipe_id => user.recipes.pluck(:id))
+  end
+  
   def custom_label_method
     "Cooking Step#{self.step_number}"  
   end
