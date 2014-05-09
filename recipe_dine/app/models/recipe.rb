@@ -37,13 +37,15 @@ class Recipe < ActiveRecord::Base
       field :dish_name
       field :short_description
       field :no_of_person_serves
-      field :recipe_preference do
-        partial "recipe_preference"
-      end
+      field :recipe_preference
       field :recipe_cuisine
+      field :other_cuisine
       field :recipe_course
+      field :other_course
       field :treatment
+      field :other_treatment
       field :cooking_equipment
+      field :other_equipment
       field :pre_preparation_steps
       field :cooking_steps
       field :garnishing_steps
