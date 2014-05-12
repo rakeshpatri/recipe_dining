@@ -1,7 +1,7 @@
 $(document).on('rails_admin.dom_ready', function(){
     cuisine_value = $("#recipe_recipe_cuisine").val()
     course_value = $("#recipe_recipe_course").val()
-    treatment_value = $("#recipe_recipe_treatment").val()
+    treatment_value = $("#recipe_treatment").val()
     equipment_value = $("#recipe_cooking_equipment").val() 
     if (cuisine_value != "Other"){
       $("#recipe_other_cuisine_field").hide()
@@ -26,7 +26,6 @@ $(document).on('rails_admin.dom_ready', function(){
       }
   	})
     $("#recipe_recipe_course").change(function(){
-      alert("1")
       value = $(this).val()
       if (value == "Other"){
         $("#recipe_other_course_field").show()
@@ -34,7 +33,7 @@ $(document).on('rails_admin.dom_ready', function(){
         $("#recipe_other_course_field").hide()
       }
     })
-    $("#recipe_recipe_treatment").change(function(){
+    $("#recipe_treatment").change(function(){
       value = $(this).val()
       if (value == "Other"){
         $("#recipe_other_treatment_field").show()
