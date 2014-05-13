@@ -17,36 +17,28 @@ $(document).on('rails_admin.dom_ready', function(){
       $("#recipe_other_treatment_field").hide()
     }
 
-  	$("#recipe_recipe_cuisine").change(function(){
-  		value = $(this).val()
+    function switchOnOther(field,value){
       if (value == "Other"){
-        $("#recipe_other_cuisine_field").show()
+        $("#recipe_other_"+ field +"_field").show()
       }else{
-        $("#recipe_other_cuisine_field").hide()
+        $("#recipe_other_"+ field +"_field").hide()
       }
-  	})
+    }
+
+    $("#recipe_recipe_cuisine").change(function(){
+      value = $(this).val()
+      switchOnOther("cuisine",value)
+    })
     $("#recipe_recipe_course").change(function(){
       value = $(this).val()
-      if (value == "Other"){
-        $("#recipe_other_course_field").show()
-      }else{
-        $("#recipe_other_course_field").hide()
-      }
+      switchOnOther("course",value)
     })
     $("#recipe_treatment").change(function(){
       value = $(this).val()
-      if (value == "Other"){
-        $("#recipe_other_treatment_field").show()
-      }else{
-        $("#recipe_other_treatment_field").hide()
-      }
+      switchOnOther("treatment",value)
     })
     $("#recipe_cooking_equipment").change(function(){
       value = $(this).val()
-      if (value == "Other"){
-        $("#recipe_other_equipment_field").show()
-      }else{
-        $("#recipe_other_equipment_field").hide()
-      }
+      switchOnOther("equipment",value)
     })
   })

@@ -1,77 +1,55 @@
+
+
+# default_run_options[:shell] = '/bin/bash'
+set :bundle_cmd, "/home/holachef/.gems/bin/bundle"
+set :default_environment, {
+  
+  'PATH' => "$PATH:/home/holachef/ruby/bin",
+  'GEM_HOME'        => "/home/holachef/.gems",
+  'GEM_PATH'        => "/home/holachef/.gems",
+  'BUNDLE_PATH'     => "/home/holachef/.gems"
+}
+
+default_run_options[:pty] = true
+
 require 'bundler/capistrano'
-require 'rvm/capistrano'
+# be sure to change these
+set :user, 'holachef'
+set :domain, 'holachef.com'
+set :application, 'holachef'
 
-load "config/recipes/requirements"
-load "config/recipes/db"
-load "config/recipes/rvm"
-load "config/recipes/passenger"
-# load "config/recipes/sphinx"
-
-set :application, "holachef"
-set :scm, :git
-set :repository,  "https://github.com/rakeshpatri/recipe_dining"
+# the rest should be good
+set :repository,  "git@bitbucket.org:rakeshpatri/recipe.git"
+set :deploy_to, "/home/#{user}/#{domain}"
 set :deploy_via, :remote_cache
-
-set :use_sudo, false
-set :keep_releases, 3
-
-set :precompile_only_if_changed, true
-set :rvm_type, :user
-
-default_run_options[:pty] = true 
-
-before "db:configure", "requirements:check"
-before "deploy:setup", "db:configure"
-before "deploy:assets:precompile", "db:symlink"
-after  "deploy:update_code", "db:symlink"
-after "deploy:update_code", "deploy:migrate"
-after "deploy:update", "deploy:cleanup"
-# after "deploy:update", "deploy:set_tmp_permission"
-
-set :rails_env, "staging"
-set :deploy_to,  "/home/holachef/holachef.com"
-set :domain, "holachef.com"
-set :user, "holachef"
-set :branch, "master"
+set :scm, 'git'
+set :branch, 'master'
+set :git_shallow_clone, 1
 set :scm_verbose, true
-role :web, domain
-role :app, domain
-role :db, domain, :primary=>true
+set :use_sudo, false
 
-# task :uat do
-#   set :rvm_type, :system
-#   set :use_sudo, true
-#   set :rails_env, "staging"
-#   set :deploy_to,  "/root/www/lazuli"
-#   set :domain, "162.242.241.238"
-#   set :user, "root"
-#   set :branch, "master"
-#   set :scm_verbose, true
-#   set :delayed_job_args_per_role, {:worker_1 => "--queues=publish,thumbnail,mail_sender -i=1", :worker_2 =>"--queue=sphinx_deltas -i=2"}
-#   role :web, domain
-#   role :app, domain
-#   role :worker_1,domain
-#   role :worker_2,domain
-#   role :db, domain, :primary=>true
-# end
+server domain, :app, :web
+role :db, domain, :primary => true
 
-# namespace :deploy do
-#   task :set_tmp_permission do
-#     run "chmod -R 777 #{current_path}/tmp/"
-#   end
-# end
+load 'deploy/assets'
+namespace :deploy do
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
 
+  task :change_permission_for_fcgi do
+    run "chmod +x #{current_path}/public/dispatch.fcgi"
+  end
 
-# task :prod do
-#   set :rails_env, "production"
-#   set :deploy_to,  "/home/sodel/rails_apps/lazuli"
-#   set :domain, "192.168.1.119"
-#   set :user, "sodel"
-#   set :branch, "master"
-#   set :scm_verbose, true
-#   role :web, domain
-#   role :app, domain
-#   role :db, domain, :primary=>true
-#   set :deploy_env, "qa"
-# end
+  namespace :assets do
+    desc 'Run the precompile task locally and rsync with shared'
+    task :precompile, :roles => :web, :except => { :no_release => true } do
+      %x{bundle exec rake assets:precompile}
+      %x{rsync --recursive --times --rsh=ssh --compress --human-readable --progress public/assets #{user}@#{domain}:#{shared_path}}
+      %x{bundle exec rake assets:clean}
+    end
+  end
+end
 
+after "deploy:update_code", "deploy:migrate"
+after "deploy:migrate", "deploy:change_permission_for_fcgi"

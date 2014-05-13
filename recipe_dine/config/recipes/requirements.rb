@@ -1,4 +1,4 @@
-set :app_requirements, ['mysql', 'imagemagick', 'nginx']
+set :app_requirements, ['mysql']
 
 namespace :requirements do
   desc "Check required softwares are installed"

@@ -2,25 +2,30 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :access, :rails_admin   # grant access to rails_admin
-    can :dashboard
-    can :manage, Recipe, :user_id => user.id
-    can :manage, CookingStep, CookingStep.belongs_to(user) do |cs|
-        cs.recipe.user_id == user.id
+    if user
+        can :access, :rails_admin   # grant access to rails_admin
+        can :dashboard
+        can :manage, Recipe, :user_id => user.id
+        can :manage, CookingStep, CookingStep.belongs_to(user) do |cs|
+            cs.recipe.user_id == user.id
+        end
+        can :manage, GarnishingStep, GarnishingStep.belongs_to(user) do |cs|
+            cs.recipe.user_id == user.id
+        end
+        can :manage, PrePreparationStep, PrePreparationStep.belongs_to(user) do |cs|
+            cs.recipe.user_id == user.id
+        end
+        can :manage, ServingStep, ServingStep.belongs_to(user) do |cs|
+            cs.recipe.user_id == user.id
+        end
+        can :manage, StoringStep, StoringStep.belongs_to(user) do |cs|
+            cs.recipe.user_id == user.id
+        end
+        can :manage, User, :id => user.id
+        can :manage, Address, :user_id => user.id
+        can :manage, UserSocialHandle, :user_id => user.id
+        cannot :create, User
     end
-    can :manage, GarnishingStep, GarnishingStep.belongs_to(user) do |cs|
-        cs.recipe.user_id == user.id
-    end
-    can :manage, PrePreparationStep, PrePreparationStep.belongs_to(user) do |cs|
-        cs.recipe.user_id == user.id
-    end
-    can :manage, ServingStep, ServingStep.belongs_to(user) do |cs|
-        cs.recipe.user_id == user.id
-    end
-    can :manage, StoringStep, StoringStep.belongs_to(user) do |cs|
-        cs.recipe.user_id == user.id
-    end
-    can :manage, User, :id => user.id
     # CookingStep.accessible_by(@ability).to_sql
     # Define abilities for the passed in user here. For example:
     #

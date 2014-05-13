@@ -23,7 +23,7 @@ gem "paperclip", "~> 4.1"
 gem 'nested_form'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -49,6 +49,8 @@ group :development do
 	gem 'capistrano', '2.15.4', require: false
   gem 'rvm-capistrano'
 end
+
+gem "fcgi"
 
 
 # Use ActiveModel has_secure_password
